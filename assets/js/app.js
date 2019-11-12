@@ -7,7 +7,7 @@ var margin = {
   top: 20,
   right: 40,
   bottom: 150,
-  left: 150
+  left: 100
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -197,7 +197,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var yAxis = chartGroup.append("g")
         .classed("y-axis", true)
-        // .attr("transform", `translate(0, ${height})`)
+        // .attr("transform", `translate(0, ${width})`)
         .call(leftAxis);
 
     // append y axis
@@ -210,12 +210,12 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .enter()
         .append("circle")
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
-        .attr("cy", d => yLinearScale(d.chosenYAxis))
-        .attr("r", 10)
+        .attr("cy", d => yLinearScale(d[chosenYAxis]))
+        .attr("r", 15)
         .attr("fill", "blue")
-        .attr("opacity", ".5");
+        .attr("opacity", "0.7");
 
-    var textGroup = chartGroup.selectAll(".state")
+    var textGroup = chartGroup.selectAll("state")
         .data(censusData)
         .enter()
         .append("text")
@@ -227,7 +227,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     // Create group for  2 x- axis labels
     var xlabelsGroup = chartGroup.append("g")
-        .attr("transform", `translate(${width / 2}, ${height + 20})`);
+        .attr("transform", `translate(${width * 0.5}, ${height + 30})`);
 
     var povertyLabel = xlabelsGroup.append("text")
         .attr("x", 0)
@@ -264,14 +264,14 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var obesityLabel = ylabelsGroup.append("text")
       .attr("x", 0)
-      .attr("y", -80)
+      .attr("y", -20)
       .attr("value", "obesity") // value to grab for event listener
       .classed("inactive", true)
       .text("Obese (%)");
 
     var smokesLabel = ylabelsGroup.append("text")
         .attr("x", 0)
-        .attr("y", -60)
+        .attr("y", -40)
         .attr("value", "smokes") // value to grab for event listener
         .classed("inactive", true)
         .text("Smokes (%)");
@@ -279,7 +279,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var healthLabel = ylabelsGroup.append("text")
         .attr("x", 0)
-        .attr("y", -40)
+        .attr("y", -60)
         .attr("value", "healthcare") // value to grab for event listener
         .classed("active", true)
         .text("Lacks Healthcare (%)")
@@ -364,7 +364,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
         // functions here found above csv import
         // updates x scale for new data
-        yLinearScale = xScale(censusData, chosenYAxis);
+        yLinearScale = yScale(censusData, chosenYAxis);
 
         // updates x axis with transition
         yAxis = renderYAxes(yLinearScale, yAxis);
