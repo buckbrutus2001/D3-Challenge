@@ -32,8 +32,9 @@
 }
 
 .stateCircle {
-  fill: #0d17a4;
+  fill: #89bdd3;
   stroke: #e3e3e3;
+  opacity: 0.5;
 }
 
 .chart {
