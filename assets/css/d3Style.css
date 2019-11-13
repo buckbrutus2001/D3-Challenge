@@ -31,7 +31,7 @@
 }
 
 .stateCircle {
-  fill: #89bdd3;
+  fill: #0d17a4;
   stroke: #e3e3e3;
 }
 
@@ -43,6 +43,7 @@
 .d3-tip {
   padding: 6px;
   font-size: 12px;
+  font-weight: bold;
   line-height: 1;
   line-height: 1.5em;
   color: #fff;

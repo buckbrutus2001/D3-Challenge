@@ -96,8 +96,8 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
 
   textGroup.transition()
       .duration(1000)
-      .attr("x", d => newXScale(d[chosenXAxis])-3)
-      .attr("y", d => newYScale(d[chosenYAxis])+1);
+      .attr("x", d => newXScale(d[chosenXAxis]))
+      .attr("y", d => newYScale(d[chosenYAxis])+5);
 
   return textGroup;
 }
@@ -106,35 +106,35 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     var xlabel  = "";
     if (chosenXAxis === "poverty") {
-        xlabel = "In Poverty (%)";
+        xlabel = "In Poverty (%): ";
     }
 
     else if  (chosenXAxis === "age") {
-        xlabel = "Age (Median)";
+        xlabel = "Age (Median): ";
     }
 
     else {
-        xlabel = "Household Income (Median)";
+        xlabel = "Household Income (Median): ";
     }
 
     var ylabel  = "";
     if (chosenYAxis === "obesity") {
-        ylabel = "Obese (%)";
+        ylabel = "Obese (%): ";
         // console.log(ylabel,chosenYAxis);
     }
 
     else if  (chosenYAxis === "smokes") {
-        ylabel = "Smokes (%)";
+        ylabel = "Smokes (%): ";
         // console.log(ylabel,chosenYAxis);
     }
 
     else {
-        ylabel = "Lacks Healthcare (%)";
+        ylabel = "Lacks Healthcare (%): ";
         // console.log(ylabel,chosenYAxis);
     }
 
     var toolTip = d3.tip()
-        .attr("class", "tooltip")
+        .attr("class", "d3-tip")
         .offset([80, -60])
         .html(function(d) {
             return (`${d.state}<br>${xlabel} ${d[chosenXAxis]}/n
@@ -175,13 +175,12 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     var xLinearScale = xScale(censusData, chosenXAxis);
     var yLinearScale = yScale(censusData, chosenYAxis);
 
-    // Create y scale function
 
     // Create initial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
-    // append x axis
+    // append x, y axis
     var xAxis = chartGroup.append("g")
         .classed("x-axis", true)
         .attr("transform", `translate(0, ${height})`)
@@ -192,9 +191,6 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         // .attr("transform", `translate(0, ${width})`)
         .call(leftAxis);
 
-    // append y axis
-    // chartGroup.append("g")
-    //     .call(leftAxis);
 
     // append initial circles
     var circlesGroup = chartGroup
@@ -202,20 +198,19 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .data(censusData)
         .enter()
         .append("circle")
+        .attr("class", "stateCircle")
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
-        .attr("r", 15)
-        .attr("fill", "blue")
-        .attr("opacity", "0.5");
+        .attr("r", 15);
 
     var textGroup = chartGroup
         .selectAll("abbr")
         .data(censusData)
         .enter()
         .append("text")
-        .attr("x", d => xLinearScale(d[chosenXAxis])-5)
-        .attr("y", d => yLinearScale(d[chosenYAxis])+3)
-        .attr("font-size", "7px")
+        .attr("class", "stateText")
+        .attr("x", d => xLinearScale(d[chosenXAxis]))
+        .attr("y", d => yLinearScale(d[chosenYAxis])+5)
         .text(d => d.abbr);
 
     // Create group for  2 x- axis labels
@@ -224,6 +219,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .attr("transform", `translate(${width * 0.5}, ${height + 30})`);
 
     var povertyLabel = xlabelsGroup.append("text")
+        .attr("class", "aText")
         .attr("x", 0)
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
@@ -231,6 +227,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .text("In Poverty (%)");
 
     var ageLabel = xlabelsGroup.append("text")
+        .attr("class", "aText")
         .attr("x", 0)
         .attr("y", 40)
         .attr("value", "age") // value to grab for event listener
@@ -238,6 +235,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .text("Age (Median)");
 
     var incomeLabel = xlabelsGroup.append("text")
+        .attr("class", "aText")
         .attr("x", 0)
         .attr("y", 60)
         .attr("value", "income") // value to grab for event listener
@@ -254,6 +252,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       .classed("axis-text", true);
 
     var obesityLabel = ylabelsGroup.append("text")
+      .attr("class", "aText")
       .attr("x", 0)
       .attr("y", -70)
       .attr("value", "obesity") // value to grab for event listener
@@ -261,6 +260,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       .text("Obese (%)");
 
     var smokesLabel = ylabelsGroup.append("text")
+        .attr("class", "aText")
         .attr("x", 0)
         .attr("y", -50)
         .attr("value", "smokes") // value to grab for event listener
@@ -269,6 +269,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
 
     var healthLabel = ylabelsGroup.append("text")
+        .attr("class", "aText")
         .attr("x", 0)
         .attr("y", -30)
         .attr("value", "healthcare") // value to grab for event listener
