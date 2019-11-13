@@ -120,17 +120,14 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     var ylabel  = "";
     if (chosenYAxis === "obesity") {
         ylabel = "Obese (%): ";
-        // console.log(ylabel,chosenYAxis);
     }
 
     else if  (chosenYAxis === "smokes") {
         ylabel = "Smokes (%): ";
-        // console.log(ylabel,chosenYAxis);
     }
 
     else {
         ylabel = "Lacks Healthcare (%): ";
-        // console.log(ylabel,chosenYAxis);
     }
 
     var toolTip = d3.tip()
