@@ -1,7 +1,7 @@
 // @TODO: YOUR CODE HERE!
 
-var svgWidth = 960;
-var svgHeight = 700;
+var svgWidth = 900;
+var svgHeight = 600;
 
 var margin = {
   top: 20,
@@ -140,11 +140,14 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     circlesGroup.call(toolTip);
 
-    circlesGroup.on("mouseover", function(data) {
+    circlesGroup
+      .on("mouseover", function(data, index) {
         toolTip.show(data, this);
+        
     })
+      
     // onmouseout event
-    .on("mouseout", function(data, index) {
+      .on("mouseout", function(data, index) {
         toolTip.hide(data, this);
     });
 
@@ -200,6 +203,8 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
         .attr("r", 15);
 
+
+
     var textGroup = chartGroup
         .selectAll("abbr")
         .data(censusData)
@@ -217,6 +222,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var povertyLabel = xlabelsGroup.append("text")
         .attr("class", "aText")
+        .attr("class","inactive:hover")
         .attr("x", 0)
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
@@ -402,6 +408,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         }
     }
 });
+  
 
 
 })();
